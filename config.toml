@@ -1,4 +1,0 @@
-baseURL = 'http://beardleon.github.io/'
-languageCode = 'en-zh'
-title = 'My New Hugo Site'
-theme = 'papermod'
