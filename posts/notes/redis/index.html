@@ -216,11 +216,11 @@ singleflightd的设计思路就是将一组相同的请求合并成一个请求�
 </li>
 </ul>
 <h3 id="append--only--file持久化操作命令如何实现">Append- Only- File持久化操作命令如何实现？<a hidden class="anchor" aria-hidden="true" href="#append--only--file持久化操作命令如何实现">#</a></h3>
-<p>如果 Redis 每执行一条写操作命令，就把该命令以追加的方式写入到一个文件里，然后重启 Redis 的时候，先去读取这个文件里的命令，并且执行它，这不就相当于恢复了缓存数据了吗？<img loading="lazy" src="redis/image-20230303211122-3gqqvmv.png" alt=""  />
+<p>如果 Redis 每执行一条写操作命令，就把该命令以追加的方式写入到一个文件里，然后重启 Redis 的时候，先去读取这个文件里的命令，并且执行它，这不就相当于恢复了缓存数据了吗？<img loading="lazy" src="1.png" alt=""  />
 </p>
 <p>这种保存写操作命令到日志的持久化方式，就是 Redis 里的 <strong>AOF( <em>Append Only File</em> )</strong> 持久化功能，<strong>注意只会记录写操作命令，读操作命令是不会被记录的</strong>（<strong>读不被记录）</strong></p>
 <p>AOF 日志文件其实就是普通的文本，我们可以通过 <code>cat</code> 命令查看里面的内容，不过里面的内容如果不知道一定的规则的话，可能会看不懂。</p>
-<p><img loading="lazy" src="redis/image-20230303211403-8ro4xpj.png" alt=""  />
+<p><img loading="lazy" src="2.png" alt=""  />
 </p>
 <p>「<code>*3</code>」表示当前命令有三个部分，每部分都是以「<code>$+数字</code>」开头，后面紧跟着具体的命令、键或值。然后，这里的「<code>数字</code>」表示这部分中的命令、键或值一共有多少字节。例如，「<code>$3 set</code>」表示这部分有 3 个字节，也就是「<code>set</code>」命令这个字符串的长度。</p>
 <h4 id="aof先执行后写日志先做命令后aof">AOF先执行后写日志（先做命令后AOF）<a hidden class="anchor" aria-hidden="true" href="#aof先执行后写日志先做命令后aof">#</a></h4>
@@ -241,7 +241,7 @@ singleflightd的设计思路就是将一组相同的请求合并成一个请求�
 <li>执行写操作命令和记录日志是两个过程，那当 Redis 在还没来得及将命令写入到硬盘时，服务器发生宕机了，这个数据就会有<strong>丢失的风险</strong></li>
 <li>由于写操作命令执行成功后才记录到 AOF 日志，所以不会阻塞当前写操作命令的执行，但是<strong>可能会给「下一个」命令带来阻塞风险</strong>(<strong>阻塞下一个）</strong></li>
 </ul>
-<p>将命令写入到日志的这个操作也是在主进程完成的（执行命令也是在主进程），也就是说这<strong>两个操作是同步</strong>的。<img loading="lazy" src="redis/image-20230303211903-xptyh6h.png" alt=""  />
+<p>将命令写入到日志的这个操作也是在主进程完成的（执行命令也是在主进程），也就是说这<strong>两个操作是同步</strong>的。<img loading="lazy" src="3.png" alt=""  />
 </p>
 <h3 id="alwayseverysecno三种日志写会硬盘策略">Always、EverySec、No三种日志写会硬盘策略<a hidden class="anchor" aria-hidden="true" href="#alwayseverysecno三种日志写会硬盘策略">#</a></h3>
 <p>Redis 写入 AOF 日志的过程，如下图：</p>
@@ -251,7 +251,7 @@ singleflightd的设计思路就是将一组相同的请求合并成一个请求�
 <li>内核态 cache 缓冲区</li>
 <li>落盘</li>
 </ol>
-<p><img loading="lazy" src="redis/image-20230303211958-o4r3ipt.png" alt=""  />
+<p><img loading="lazy" src="4.png" alt=""  />
 </p>
 <ol>
 <li>Redis 执行完写操作命令后，会将命令追加到 <code>server.aof_buf</code> <strong>缓冲区</strong>；</li>
@@ -271,7 +271,7 @@ singleflightd的设计思路就是将一组相同的请求合并成一个请求�
 <li>No 策略的话，是交由操作系统来决定何时将 AOF 日志内容写回硬盘，相比于 Always 策略性能较好，但是操作系统写回硬盘的时机是不可预知的，如果 AOF 日志内容没有写回硬盘，<strong>一旦服务器宕机</strong>，就会丢失不定数量的数据。</li>
 <li>Everysec 策略的话，是折中的一种方式，避免了 Always 策略的性能开销，也比 No 策略更能避免数据丢失，当然如果上一秒的写操作命令日志没有写回到硬盘，发生了宕机，这一<strong>秒内的数据自然也会丢失</strong>。</li>
 </ul>
-<p><img loading="lazy" src="redis/image-20230303212357-0bbvuy0.png" alt=""  />
+<p><img loading="lazy" src="5.png" alt=""  />
 </p>
 <h3 id="aof重写机制">AOF重写机制<a hidden class="anchor" aria-hidden="true" href="#aof重写机制">#</a></h3>
 <p>压缩 -&gt; :<strong>大小超过阈值，读全表写kv到aof文件，替换原来的</strong> (64MB)，后台子<strong>进程</strong><code>bgrewriteaof</code>做，避免性能影响</p>
@@ -294,7 +294,7 @@ singleflightd的设计思路就是将一组相同的请求合并成一个请求�
 <p>还有个问题，重写 AOF 日志过程中，如果主进程修改了已经存在 key-value，此时这个 key-value 数据在子进程的内存数据就跟主进程的内存数据不一致了，这时要怎么办呢？</p>
 <p>为了<strong>解决这种数据不一致</strong>问题，Redis 设置了一个<code>  AOF 重写缓冲区</code> ，这个缓冲区在创建 bgrewriteaof 子进程之后开始使用。</p>
 <p>在重写 AOF 期间，当 Redis 执行完一个写命令之后，它会 <strong>同时将这个写命令写入到 「AOF 缓冲区」和 「AOF 重写缓冲区」</strong> 。</p>
-<p><img loading="lazy" src="redis/image-20230303213155-20tfgrd.png" alt=""  />
+<p><img loading="lazy" src="6.png" alt=""  />
 </p>
 <p>也就是说，在 bgrewriteaof 子进程执行 AOF 重写期间，主进程需要执行以下三个工作:</p>
 <p><strong>两个缓冲区</strong>保障一致</p>
@@ -367,7 +367,7 @@ singleflightd的设计思路就是将一组相同的请求合并成一个请求�
 </span></span></code></pre></div><p>混合持久化工作在  <strong>AOF 日志重写过程</strong> 。</p>
 <p>当开启了混合持久化时，在 AOF 重写日志时，<code>fork</code> 出来的重写子进程会先将与主线程共享的内存数据以 RDB 方式写入到 AOF 文件，然后主线程处理的操作命令会被记录在重写缓冲区里，重写缓冲区里的增量命令会以 AOF 方式写入到 AOF 文件，写入完成后通知主进程将新的含有 RDB 格式和 AOF 格式的 AOF 文件替换旧的的 AOF 文件。</p>
 <p>也就是说，使用了混合持久化，AOF 文件的 <strong>前半部分是 RDB 格式的全量数据，后半部分是 AOF 格式的增量数据</strong> 。</p>
-<p><img loading="lazy" src="redis/image-20230303214337-8sip2st.png" alt=""  />
+<p><img loading="lazy" src="7.png" alt=""  />
 </p>
 <p>这样的好处在于，重启 Redis 加载数据的时候，由于前半部分是 RDB 内容，这样 <strong>加载的时候速度会很快</strong> 。</p>
 <p>加载完 RDB 的内容后，才会加载后半部分的 AOF 内容，这里的内容是 Redis 后台子进程重写 AOF 期间，主线程处理的操作命令，可以使得 <strong>数据更少的丢失</strong> 。</p>
@@ -375,7 +375,7 @@ singleflightd的设计思路就是将一组相同的请求合并成一个请求�
 <ul>
 <li>分布式锁是用于<strong>分布式环境下并发控制</strong>的一种机制，用于控制某个资源在同一时刻只能被一个应用所使用</li>
 </ul>
-<p><img loading="lazy" src="redis/image-20230304150253-pm22m2k.png" alt=""  />
+<p><img loading="lazy" src="8.png" alt=""  />
 </p>
 <p>Redis 本身<strong>可以被多个客户端共享访问</strong>，正好就是一个<strong>共享存储系统</strong>，可以用来保存分布式锁，而且 Redis 的读写性能高，可以应对高并发的锁操作场景。</p>
 <p><code>setnx「set if not exists」</code></p>
@@ -475,7 +475,7 @@ singleflightd的设计思路就是将一组相同的请求合并成一个请求�
 </li>
 <li>
 <p>insert(x) -&gt; 对x进行多个hash(x) ,将对应位置置1</p>
-<p><img loading="lazy" src="redis/image-20230525133037-i5ep944.png" alt=""  />
+<p><img loading="lazy" src="9.png" alt=""  />
 </p>
 </li>
 </ul>
