@@ -220,7 +220,7 @@ singleflightd的设计思路就是将一组相同的请求合并成一个请求�
 </p>
 <p>这种保存写操作命令到日志的持久化方式，就是 Redis 里的 <strong>AOF( <em>Append Only File</em> )</strong> 持久化功能，<strong>注意只会记录写操作命令，读操作命令是不会被记录的</strong>（<strong>读不被记录）</strong></p>
 <p>AOF 日志文件其实就是普通的文本，我们可以通过 <code>cat</code> 命令查看里面的内容，不过里面的内容如果不知道一定的规则的话，可能会看不懂。</p>
-<p><img loading="lazy" src="2.png" alt=""  />
+<p><img loading="lazy" src="./redis/2.png" alt=""  />
 </p>
 <p>「<code>*3</code>」表示当前命令有三个部分，每部分都是以「<code>$+数字</code>」开头，后面紧跟着具体的命令、键或值。然后，这里的「<code>数字</code>」表示这部分中的命令、键或值一共有多少字节。例如，「<code>$3 set</code>」表示这部分有 3 个字节，也就是「<code>set</code>」命令这个字符串的长度。</p>
 <h4 id="aof先执行后写日志先做命令后aof">AOF先执行后写日志（先做命令后AOF）<a hidden class="anchor" aria-hidden="true" href="#aof先执行后写日志先做命令后aof">#</a></h4>
