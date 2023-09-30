@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>Docs on Leon Hugo</title>
+    <link>http://beardleon.github.io/docs/</link>
+    <description>Recent content in Docs on Leon Hugo</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-zh</language>
+    <lastBuildDate>Thu, 11 May 2023 00:55:38 +0800</lastBuildDate><atom:link href="http://beardleon.github.io/docs/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Test</title>
+      <link>http://beardleon.github.io/docs/test/</link>
+      <pubDate>Thu, 11 May 2023 00:55:38 +0800</pubDate>
+      
+      <guid>http://beardleon.github.io/docs/test/</guid>
+      <description>你好 嘿嘿d hhssd </description>
+    </item>
+    
+  </channel>
+</rss>
