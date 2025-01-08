@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Notes on Leon's life</title><link>https://beardleon.github.io/categories/notes/</link><description>Recent content in Notes on Leon's life</description><generator>Hugo</generator><language>en-zh</language><lastBuildDate>Wed, 31 May 2023 15:00:00 +0800</lastBuildDate><atom:link href="https://beardleon.github.io/categories/notes/index.xml" rel="self" type="application/rss+xml"/><item><title>深入浅出走进Redis</title><link>https://beardleon.github.io/posts/notes/redis/</link><pubDate>Wed, 31 May 2023 15:00:00 +0800</pubDate><guid>https://beardleon.github.io/posts/notes/redis/</guid><description>&lt;h1 id="redis">Redis&lt;/h1>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Notes on Leon's life</title><link>https://beardleon.github.io/categories/notes/</link><description>Recent content in Notes on Leon's life</description><generator>Hugo</generator><language>en-zh</language><copyright>&amp;copy;{year}, All Rights Reserved</copyright><lastBuildDate>Wed, 31 May 2023 15:00:00 +0800</lastBuildDate><atom:link href="https://beardleon.github.io/categories/notes/index.xml" rel="self" type="application/rss+xml"/><item><title>深入浅出走进Redis</title><link>https://beardleon.github.io/posts/notes/redis/</link><pubDate>Wed, 31 May 2023 15:00:00 +0800</pubDate><guid>https://beardleon.github.io/posts/notes/redis/</guid><description>&lt;h1 id="redis">Redis&lt;/h1>
 &lt;ul>
 &lt;li>深入浅出走进Redis &lt;a href="https://mp.weixin.qq.com/s/ThVtw8TVuhxIyYxJy6sOWw">https://mp.weixin.qq.com/s/ThVtw8TVuhxIyYxJy6sOWw&lt;/a>&lt;/li>
 &lt;/ul>
@@ -16,8 +16,8 @@
 &lt;ul>
 &lt;li>方法一我们简单粗暴点，直接让热点数据永远不过期，定时任务定期去刷新数据就可以了。不过这样设置需要区分场景，比如某宝首页可以这么做。&lt;/li>
 &lt;li>方法二为了避免出现缓存击穿的情况，我们可以在第一个请求去查询数据库的时候对他加一个互斥锁，其余的查询请求都会被阻塞住，直到锁被释放，后面的线程进来发现已经有缓存了，就直接走缓存，从而保护数据库。但是也是由于它会阻塞其他的线程，此时系统吞吐量会下降。需要结合实际的业务去考虑是否要这么做。&lt;/li>
-&lt;li>方法三
-方法三就是singleflight的设计思路，也会使用互斥锁，但是相对于方法二的加锁粒度会更细，这里先简单总结一下singleflight的设计原理，后面看源码在具体分析。
+&lt;li>方法三&lt;br />
+方法三就是singleflight的设计思路，也会使用互斥锁，但是相对于方法二的加锁粒度会更细，这里先简单总结一下singleflight的设计原理，后面看源码在具体分析。&lt;br />
 singleflightd的设计思路就是将一组相同的请求合并成一个请求，使用 &lt;code>map&lt;/code>存储，&lt;strong>只会有一个请求到达mysql&lt;/strong>，使用 &lt;code>sync.waitgroup&lt;/code>包进行同步，对所有的请求返回相同的结果。&lt;/li>
 &lt;/ul>
 &lt;h2 id="缓存雪崩redis有多key无value-多key被击穿">&lt;strong>缓存雪崩&lt;/strong>（redis有多key无value）-多key被击穿&lt;/h2>
@@ -35,6 +35,6 @@ singleflightd的设计思路就是将一组相同的请求合并成一个请求�
 &lt;/li>
 &lt;/ul>
 &lt;h3 id="append--only--file持久化操作命令如何实现">Append- Only- File持久化操作命令如何实现？&lt;/h3>
-&lt;p>如果 Redis 每执行一条写操作命令，就把该命令以追加的方式写入到一个文件里，然后重启 Redis 的时候，先去读取这个文件里的命令，并且执行它，这不就相当于恢复了缓存数据了吗？&lt;img src="1.png" alt="">&lt;/p>
+&lt;p>如果 Redis 每执行一条写操作命令，就把该命令以追加的方式写入到一个文件里，然后重启 Redis 的时候，先去读取这个文件里的命令，并且执行它，这不就相当于恢复了缓存数据了吗？&lt;img src="1.png" alt="" />&lt;/p>
 &lt;p>这种保存写操作命令到日志的持久化方式，就是 Redis 里的 &lt;strong>AOF( &lt;em>Append Only File&lt;/em> )&lt;/strong> 持久化功能，&lt;strong>注意只会记录写操作命令，读操作命令是不会被记录的&lt;/strong>（&lt;strong>读不被记录）&lt;/strong>&lt;/p>
 &lt;p>AOF 日志文件其实就是普通的文本，我们可以通过 &lt;code>cat&lt;/code> 命令查看里面的内容，不过里面的内容如果不知道一定的规则的话，可能会看不懂。&lt;/p></description></item></channel></rss>
