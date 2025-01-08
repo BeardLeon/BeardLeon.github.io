@@ -1,16 +1,59 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on Leon's life</title><link>ghttps://beardleon.github.io/posts/</link><description>Recent content in Posts on Leon's life</description><generator>Hugo -- gohugo.io</generator><language>en-zh</language><lastBuildDate>Wed, 08 Jan 2025 15:46:59 +0800</lastBuildDate><atom:link href="ghttps://beardleon.github.io/posts/index.xml" rel="self" type="application/rss+xml"/><item><title>Why</title><link>ghttps://beardleon.github.io/posts/why/</link><pubDate>Wed, 08 Jan 2025 15:46:59 +0800</pubDate><guid>ghttps://beardleon.github.io/posts/why/</guid><description>试验一下是否生效。</description></item><item><title>How_to_use_hugo</title><link>ghttps://beardleon.github.io/posts/how_to_use_hugo/</link><pubDate>Wed, 08 Jan 2025 15:35:49 +0800</pubDate><guid>ghttps://beardleon.github.io/posts/how_to_use_hugo/</guid><description>命令：
-hugo new posts/note_name.md edit git add contents/posts/note_name.md git commit -m &amp;#34;msg&amp;#34; git push wait Github Actions</description></item><item><title>20250108_2</title><link>ghttps://beardleon.github.io/posts/20250108_2/</link><pubDate>Wed, 08 Jan 2025 14:56:07 +0800</pubDate><guid>ghttps://beardleon.github.io/posts/20250108_2/</guid><description>我还是很想要跟着前线做一些大模型相关的工作的，跨境电商是一个很好的方向，走走看？是否在主航线上呢？</description></item><item><title>20250108</title><link>ghttps://beardleon.github.io/posts/20250108/</link><pubDate>Wed, 08 Jan 2025 14:46:47 +0800</pubDate><guid>ghttps://beardleon.github.io/posts/20250108/</guid><description>怎么样去做呢？</description></item><item><title>突然想说点什么</title><link>ghttps://beardleon.github.io/posts/say_something/</link><pubDate>Wed, 08 Jan 2025 11:02:51 +0800</pubDate><guid>ghttps://beardleon.github.io/posts/say_something/</guid><description>总觉得需要搞个博客，记录最近的日常，写写内容，作为输出。</description></item><item><title>Mid Autumn</title><link>ghttps://beardleon.github.io/posts/mid-autumn/</link><pubDate>Sat, 30 Sep 2023 14:48:04 +0800</pubDate><guid>ghttps://beardleon.github.io/posts/mid-autumn/</guid><description>大家好，现在是2023年9月30日。
-祝福大家中秋国庆双节快乐，一切顺利！</description></item><item><title>My Intro</title><link>ghttps://beardleon.github.io/posts/first/</link><pubDate>Wed, 31 May 2023 15:00:00 +0800</pubDate><guid>ghttps://beardleon.github.io/posts/first/</guid><description>Hi Everyone Hi There is Beard Leon, who‘s a James Harden&amp;rsquo;s fan.
-Desc Contact mail:
-End Bye-Bye.</description></item><item><title>深入浅出走进Redis</title><link>ghttps://beardleon.github.io/posts/notes/redis/</link><pubDate>Wed, 31 May 2023 15:00:00 +0800</pubDate><guid>ghttps://beardleon.github.io/posts/notes/redis/</guid><description>Redis 深入浅出走进Redis https://mp.weixin.qq.com/s/ThVtw8TVuhxIyYxJy6sOWw 缓存穿透（redis无key）-压垮数据库 cache penetration （刺穿）
-问题描述：key对应的数据在数据源并不存在，每次针对此key的请求从缓存获取不到，请求都会压到数据源，从而可能压垮数据源。比如用一个不存在的用户id获取用户信息，不论缓存还是数据库都没有，若黑客利用此漏洞进行攻击可能压垮数据库。
-解决方案：（1）对空值缓存：如果一个查询返回的数据为空（不管是数据是否不存在），我们仍然把这个空结果（null）进行缓存，设置空结果的过期时间会很短，最长不超过五分钟。（2）设置可访问的名单（白名单）：使用bitmaps类型定义一个可以访问的名单，名单id作为bitmaps的偏移量，每次访问和bitmap里面的id进行比较，如果访问id不在bitmaps里面，进行拦截，不允许访问。（3）采用布隆过滤器：将所有可能存在的数据哈希到一个足够大的bitmaps中，一个一定不存在的数据会被 这个bitmaps拦截掉，从而避免了对底层存储系统的查询压力。（加一层防护判断）（4）进行实时监控：当发现Redis的命中率开始急速降低，需要排查访问对象和访问的数据，和运维人员配合，可以设置黑名单限制服务。
-缓存击穿（redis热点key突然过期）-大量并发访问单key-被击穿数据库 cache breakdown
-问题描述：key对应的数据存在，但在redis中过期，此时若有大量并发请求过来，这些请求发现缓存过期一般都会从后端DB加载数据并回设到缓存，这个时候大并发的请求可能会瞬间把后端DB压垮。
-解决问题：（1）预先设置热门数据：在redis高峰访问之前，把一些热门数据提前存入到redis里面，加大这些热门数据key的时长。（淘宝提前热门缓存）（2）实时调整：现场监控哪些数据热门，实时调整key的过期时长。（3）使用锁：就是在缓存失效的时候（判断拿出来的值为空），不是立即去load db；先使用缓存工具的某些带成功操作返回值的操作（比如Redis的SETNX）去set一个mutex key；当操作返回成功时，再进行load db的操作，并回设缓存,最后删除mutex key；当操作返回失败，证明有线程在load db，当前线程睡眠一段时间再重试整个get缓存的方法（搞个分布式锁，但一线程去访问db，阻塞其他的）。
-什么是缓存击穿 平常在高并发系统中，会出现大量的请求同时查询一个 key的情况，假如此时这个热 key刚好失效了，就会导致大量的请求都打到数据库上面去，这种现象就是缓存击穿。缓存击穿和缓存雪崩有点像，但是又有一点不一样，缓存雪崩是因为大面积的缓存失效，打崩了DB，而缓存击穿则是指一个key非常热点，在不停的扛着高并发，高并发集中对着这一个点进行访问，如果这个key在失效的瞬间，持续的并发到来就会穿破缓存，直接请求到数据库，就像一个完好无损的桶上凿开了一个洞，造成某一时刻数据库请求量过大，压力剧增！
-如何解决 方法一我们简单粗暴点，直接让热点数据永远不过期，定时任务定期去刷新数据就可以了。不过这样设置需要区分场景，比如某宝首页可以这么做。 方法二为了避免出现缓存击穿的情况，我们可以在第一个请求去查询数据库的时候对他加一个互斥锁，其余的查询请求都会被阻塞住，直到锁被释放，后面的线程进来发现已经有缓存了，就直接走缓存，从而保护数据库。但是也是由于它会阻塞其他的线程，此时系统吞吐量会下降。需要结合实际的业务去考虑是否要这么做。 方法三 方法三就是singleflight的设计思路，也会使用互斥锁，但是相对于方法二的加锁粒度会更细，这里先简单总结一下singleflight的设计原理，后面看源码在具体分析。 singleflightd的设计思路就是将一组相同的请求合并成一个请求，使用 map存储，只会有一个请求到达mysql，使用 sync.waitgroup包进行同步，对所有的请求返回相同的结果。 缓存雪崩（redis有多key无value）-多key被击穿 问题描述：key对应的数据存在，但在redis中过期，此时若有大量并发请求过来，这些请求发现缓存过期一般都会从后端DB加载数据并回设到缓存，这个时候大并发的请求可能会瞬间把后端DB压垮。缓存雪崩与缓存击穿的区别在于这里针对很多key缓存，后者则是某一个key。
-解决方案：（1）构建多级缓存架构：nginx缓存 + redis缓存 +其他缓存（ehcache等）。（2）使用锁或队列：用加锁或者队列的方式保证来保证不会有大量的线程对数据库一次性进行读写，从而避免失效时大量的并发请求落到底层存储系统上（消息队列）。不适用高并发情况。（3）设置过期标志更新缓存：记录缓存数据是否过期（设置提前量），如果过期会触发通知另外的线程在后台去更新实际key的缓存。（4）将缓存失效时间分散开：比如我们可以在原有的失效时间基础上增加一个随机值，比如1-5分钟随机，这样每一个缓存的过期时间的重复率就会降低，就很难引发集体失效的事件。
-持久化AOF &amp;amp; RDB Append- Only- File日志 默认不开启 RDB快照 AOF 文件的内容是操作命令（写命令）； RDB 文件的内容是二进制数据。 Append- Only- File持久化操作命令如何实现？ 如果 Redis 每执行一条写操作命令，就把该命令以追加的方式写入到一个文件里，然后重启 Redis 的时候，先去读取这个文件里的命令，并且执行它，这不就相当于恢复了缓存数据了吗？
-这种保存写操作命令到日志的持久化方式，就是 Redis 里的 AOF( Append Only File ) 持久化功能，注意只会记录写操作命令，读操作命令是不会被记录的（读不被记录）
-AOF 日志文件其实就是普通的文本，我们可以通过 cat 命令查看里面的内容，不过里面的内容如果不知道一定的规则的话，可能会看不懂。</description></item></channel></rss>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on Leon's life</title><link>ghttps://beardleon.github.io/posts/</link><description>Recent content in Posts on Leon's life</description><generator>Hugo</generator><language>en-zh</language><lastBuildDate>Wed, 08 Jan 2025 15:46:59 +0800</lastBuildDate><atom:link href="ghttps://beardleon.github.io/posts/index.xml" rel="self" type="application/rss+xml"/><item><title>Why</title><link>ghttps://beardleon.github.io/posts/why/</link><pubDate>Wed, 08 Jan 2025 15:46:59 +0800</pubDate><guid>ghttps://beardleon.github.io/posts/why/</guid><description>&lt;p>试验一下是否生效。&lt;/p></description></item><item><title>How_to_use_hugo</title><link>ghttps://beardleon.github.io/posts/how_to_use_hugo/</link><pubDate>Wed, 08 Jan 2025 15:35:49 +0800</pubDate><guid>ghttps://beardleon.github.io/posts/how_to_use_hugo/</guid><description>&lt;p>命令：&lt;/p>
+&lt;pre tabindex="0">&lt;code>hugo new posts/note_name.md
+
+edit
+
+git add contents/posts/note_name.md
+
+git commit -m &amp;#34;msg&amp;#34;
+
+git push
+
+wait Github Actions
+&lt;/code>&lt;/pre></description></item><item><title>20250108_2</title><link>ghttps://beardleon.github.io/posts/20250108_2/</link><pubDate>Wed, 08 Jan 2025 14:56:07 +0800</pubDate><guid>ghttps://beardleon.github.io/posts/20250108_2/</guid><description>&lt;p>我还是很想要跟着前线做一些大模型相关的工作的，跨境电商是一个很好的方向，走走看？是否在主航线上呢？&lt;/p></description></item><item><title>20250108</title><link>ghttps://beardleon.github.io/posts/20250108/</link><pubDate>Wed, 08 Jan 2025 14:46:47 +0800</pubDate><guid>ghttps://beardleon.github.io/posts/20250108/</guid><description>&lt;h2 id="怎么样去做呢">怎么样去做呢？&lt;/h2></description></item><item><title>突然想说点什么</title><link>ghttps://beardleon.github.io/posts/say_something/</link><pubDate>Wed, 08 Jan 2025 11:02:51 +0800</pubDate><guid>ghttps://beardleon.github.io/posts/say_something/</guid><description>&lt;p>总觉得需要搞个博客，记录最近的日常，写写内容，作为输出。&lt;/p></description></item><item><title>Mid Autumn</title><link>ghttps://beardleon.github.io/posts/mid-autumn/</link><pubDate>Sat, 30 Sep 2023 14:48:04 +0800</pubDate><guid>ghttps://beardleon.github.io/posts/mid-autumn/</guid><description>&lt;p>大家好，现在是2023年9月30日。&lt;/p>
+&lt;p>祝福大家中秋国庆双节快乐，一切顺利！&lt;/p></description></item><item><title>My Intro</title><link>ghttps://beardleon.github.io/posts/first/</link><pubDate>Wed, 31 May 2023 15:00:00 +0800</pubDate><guid>ghttps://beardleon.github.io/posts/first/</guid><description>&lt;h1 id="hi-everyone">Hi Everyone&lt;/h1>
+&lt;p>Hi There is Beard Leon, who‘s a James Harden&amp;rsquo;s fan.&lt;/p>
+&lt;h2 id="desc">Desc&lt;/h2>
+&lt;h2 id="contact">Contact&lt;/h2>
+&lt;p>mail:&lt;/p>
+&lt;h2 id="end">End&lt;/h2>
+&lt;p>Bye-Bye.&lt;/p></description></item><item><title>深入浅出走进Redis</title><link>ghttps://beardleon.github.io/posts/notes/redis/</link><pubDate>Wed, 31 May 2023 15:00:00 +0800</pubDate><guid>ghttps://beardleon.github.io/posts/notes/redis/</guid><description>&lt;h1 id="redis">Redis&lt;/h1>
+&lt;ul>
+&lt;li>深入浅出走进Redis &lt;a href="https://mp.weixin.qq.com/s/ThVtw8TVuhxIyYxJy6sOWw">https://mp.weixin.qq.com/s/ThVtw8TVuhxIyYxJy6sOWw&lt;/a>&lt;/li>
+&lt;/ul>
+&lt;h2 id="缓存穿透redis无key-压垮数据库">&lt;strong>缓存穿透&lt;/strong>（redis无key）-压垮数据库&lt;/h2>
+&lt;p>&lt;strong>cache penetration&lt;/strong> （刺穿）&lt;/p>
+&lt;p>问题描述：&lt;strong>key对应的数据在数据源并不存在&lt;/strong>，每次针对此key的请求从缓存获取不到，请求都会压到数据源，从而可能压垮数据源。比如用一个不存在的用户id获取用户信息，&lt;strong>不论缓存还是数据库都没有&lt;/strong>，若黑客利用此漏洞进行攻击可能压垮数据库。&lt;/p>
+&lt;p>解决方案：（1）对&lt;strong>空值缓存&lt;/strong>：如果一个查询返回的数据为空（不管是数据是否不存在），我们仍然把这个空结果（null）进行缓存，设置空结果的过期时间会很短，最长不超过五分钟。（2）设置可访问的名单（白名单）：使用bitmaps类型定义一个可以访问的名单，名单id作为bitmaps的偏移量，每次访问和bitmap里面的id进行比较，如果访问id不在bitmaps里面，进行拦截，不允许访问。（3）采用&lt;strong>布隆过滤器&lt;/strong>：将所有可能存在的数据哈希到一个&lt;strong>足够大的bitmaps&lt;/strong>中，一个一定不存在的数据会被 这个bitmaps拦截掉，从而避免了对底层存储系统的查询压力。（&lt;strong>加一层防护判断）&lt;/strong>（4）进行实时监控：当发现Redis的命中率开始急速降低，需要排查访问对象和访问的数据，和运维人员配合，可以设置黑名单限制服务。&lt;/p>
+&lt;h2 id="缓存击穿redis热点key突然过期-大量并发访问单key-被击穿数据库">&lt;strong>缓存击穿&lt;/strong>（redis热点key突然过期）-大量并发访问单key-被击穿数据库&lt;/h2>
+&lt;p>&lt;strong>cache breakdown&lt;/strong>&lt;/p>
+&lt;p>问题描述：&lt;strong>key对应的数据存在，但在redis中过期&lt;/strong>，此时若有&lt;strong>大量并发&lt;/strong>请求过来，这些请求发现缓存过期一般都&lt;strong>会从后端DB加载数据并回设到缓存&lt;/strong>，这个时候大并发的请求可能会瞬间把后端DB压垮。&lt;/p>
+&lt;p>解决问题：（1）预先设置热门数据：在redis高峰访问之前，把一些热门数据提前存入到redis里面，加大这些热门数据key的时长。&lt;strong>（淘宝提前热门缓存）&lt;/strong>（2）实时调整：现场监控哪些数据热门，实时调整key的&lt;strong>过期时长&lt;/strong>。（3）使用锁：就是在缓存失效的时候（判断拿出来的值为空），不是立即去load db；先使用缓存工具的某些带成功操作返回值的操作（比如Redis的SETNX）去set一个mutex key；当操作返回成功时，再进行load db的操作，并回设缓存,最后删除mutex key；当操作返回失败，证明有线程在load db，当前线程睡眠一段时间再重试整个get缓存的方法（&lt;strong>搞个分布式锁，但一线程去访问db，阻塞其他的）&lt;/strong>。&lt;/p>
+&lt;h3 id="什么是缓存击穿">&lt;strong>什么是缓存击穿&lt;/strong>&lt;/h3>
+&lt;p>平常在高并发系统中，会出现大量的请求同时查询一个 &lt;code>key&lt;/code>的情况，假如此时这个热 &lt;code>key&lt;/code>刚好失效了，就会导致大量的请求都打到数据库上面去，这种现象就是缓存击穿。缓存击穿和缓存雪崩有点像，但是又有一点不一样，缓存雪崩是因为大面积的缓存失效，打崩了DB，而缓存击穿则是指一个key非常热点，在不停的扛着高并发，高并发集中对着这&lt;strong>一个点&lt;/strong>进行访问，如果这个key在失效的瞬间，持续的并发到来就会穿破缓存，直接请求到数据库，就像一个完好无损的桶上凿开了一个洞，造成某一时刻数据库请求量过大，压力剧增！&lt;/p>
+&lt;h3 id="如何解决">&lt;strong>如何解决&lt;/strong>&lt;/h3>
+&lt;ul>
+&lt;li>方法一我们简单粗暴点，直接让热点数据永远不过期，定时任务定期去刷新数据就可以了。不过这样设置需要区分场景，比如某宝首页可以这么做。&lt;/li>
+&lt;li>方法二为了避免出现缓存击穿的情况，我们可以在第一个请求去查询数据库的时候对他加一个互斥锁，其余的查询请求都会被阻塞住，直到锁被释放，后面的线程进来发现已经有缓存了，就直接走缓存，从而保护数据库。但是也是由于它会阻塞其他的线程，此时系统吞吐量会下降。需要结合实际的业务去考虑是否要这么做。&lt;/li>
+&lt;li>方法三
+方法三就是singleflight的设计思路，也会使用互斥锁，但是相对于方法二的加锁粒度会更细，这里先简单总结一下singleflight的设计原理，后面看源码在具体分析。
+singleflightd的设计思路就是将一组相同的请求合并成一个请求，使用 &lt;code>map&lt;/code>存储，&lt;strong>只会有一个请求到达mysql&lt;/strong>，使用 &lt;code>sync.waitgroup&lt;/code>包进行同步，对所有的请求返回相同的结果。&lt;/li>
+&lt;/ul>
+&lt;h2 id="缓存雪崩redis有多key无value-多key被击穿">&lt;strong>缓存雪崩&lt;/strong>（redis有多key无value）-多key被击穿&lt;/h2>
+&lt;p>问题描述：&lt;strong>key对应的数据存在，但在redis中过期&lt;/strong>，此时若有大量并发请求过来，这些请求发现缓存过期一般都会从后端DB加载数据并回设到缓存，这个时候大并发的请求可能会瞬间把后端DB压垮。缓存雪崩与缓存击穿的区别在于这里针对很多key缓存，后者则是某一个key。&lt;/p>
+&lt;p>解决方案：（1）构建多级缓存架构：nginx缓存 + redis缓存 +其他缓存（ehcache等）。（2）使用锁或队列：用加锁或者队列的方式保证来保证不会有大量的线程对数据库一次性进行读写，从而避免失效时大量的并发请求落到底层存储系统上（&lt;strong>消息队列）&lt;/strong>。不适用高并发情况。（3）设置&lt;strong>过期标志更新缓存&lt;/strong>：记录缓存数据是否过期（设置提前量），如果过期会触发通知另外的线程在后台去更新实际key的缓存。（4）将&lt;strong>缓存失效时间分散开&lt;/strong>：比如我们可以在原有的失效时间基础上增加一个随机值，比如1-5分钟随机，这样每一个缓存的过期时间的重复率就会降低，就很难引发集体失效的事件。&lt;/p>
+&lt;h2 id="持久化aof--rdb">持久化AOF &amp;amp; RDB&lt;/h2>
+&lt;ul>
+&lt;li>Append- Only- File日志 &lt;strong>默认不开启&lt;/strong>&lt;/li>
+&lt;li>RDB快照&lt;/li>
+&lt;li>
+&lt;ul>
+&lt;li>&lt;strong>AOF&lt;/strong> 文件的内容是&lt;strong>操作命令&lt;/strong>（写命令）；&lt;/li>
+&lt;li>&lt;strong>RDB&lt;/strong> 文件的内容是二进制&lt;strong>数据&lt;/strong>。&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;/ul>
+&lt;h3 id="append--only--file持久化操作命令如何实现">Append- Only- File持久化操作命令如何实现？&lt;/h3>
+&lt;p>如果 Redis 每执行一条写操作命令，就把该命令以追加的方式写入到一个文件里，然后重启 Redis 的时候，先去读取这个文件里的命令，并且执行它，这不就相当于恢复了缓存数据了吗？&lt;img src="1.png" alt="">&lt;/p>
+&lt;p>这种保存写操作命令到日志的持久化方式，就是 Redis 里的 &lt;strong>AOF( &lt;em>Append Only File&lt;/em> )&lt;/strong> 持久化功能，&lt;strong>注意只会记录写操作命令，读操作命令是不会被记录的&lt;/strong>（&lt;strong>读不被记录）&lt;/strong>&lt;/p>
+&lt;p>AOF 日志文件其实就是普通的文本，我们可以通过 &lt;code>cat&lt;/code> 命令查看里面的内容，不过里面的内容如果不知道一定的规则的话，可能会看不懂。&lt;/p></description></item></channel></rss>
