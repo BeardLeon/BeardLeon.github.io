@@ -1,4 +1,15 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/"><channel><title>Leon's life</title><link>https://beardleon.github.io/</link><description>Recent content on Leon's life</description><generator>Hugo -- 0.140.2</generator><language>en-zh</language><lastBuildDate>Thu, 09 Jan 2025 17:27:44 +0800</lastBuildDate><atom:link href="https://beardleon.github.io/index.xml" rel="self" type="application/rss+xml"/><item><title>视频是非常低效的媒介</title><link>https://beardleon.github.io/posts/not_video/</link><pubDate>Thu, 09 Jan 2025 17:27:44 +0800</pubDate><guid>https://beardleon.github.io/posts/not_video/</guid><description>&lt;p>缺乏主动学习的情况下喜欢看视频，实际上视频是非常低效的媒介。&lt;/p></description></item><item><title>没有失败，只有反馈</title><link>https://beardleon.github.io/posts/no_failed_just_feedback/</link><pubDate>Thu, 09 Jan 2025 17:24:05 +0800</pubDate><guid>https://beardleon.github.io/posts/no_failed_just_feedback/</guid><description>&lt;h1 id="1">1.&lt;/h1>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/"><channel><title>Leon's life</title><link>https://beardleon.github.io/</link><description>Recent content on Leon's life</description><generator>Hugo -- 0.140.2</generator><language>en-zh</language><lastBuildDate>Fri, 10 Jan 2025 17:42:35 +0800</lastBuildDate><atom:link href="https://beardleon.github.io/index.xml" rel="self" type="application/rss+xml"/><item><title>如何使用LLM构造代码生成工具？</title><link>https://beardleon.github.io/posts/20250110/</link><pubDate>Fri, 10 Jan 2025 17:42:35 +0800</pubDate><guid>https://beardleon.github.io/posts/20250110/</guid><description>&lt;blockquote>
+&lt;p>tiktok架构三面场景题，由GPT生成答案，需要进一步修改。&lt;/p>
+&lt;/blockquote>
+&lt;h3 id="1-确定需求与目标">1. &lt;strong>确定需求与目标&lt;/strong>&lt;/h3>
+&lt;p>明确代码生成工具的目标功能，例如：&lt;/p>
+&lt;ul>
+&lt;li>&lt;strong>用途&lt;/strong> ：生成函数代码、修复代码错误、添加注释、优化代码。&lt;/li>
+&lt;li>&lt;strong>语言支持&lt;/strong> ：支持的编程语言（如 Python、JavaScript）。&lt;/li>
+&lt;li>&lt;strong>细粒度&lt;/strong> ：生成单个函数、模块，还是整段代码。&lt;/li>
+&lt;/ul>
+&lt;p>&lt;strong>示例&lt;/strong> ：
+用户输入：&lt;/p></description></item><item><title>视频是非常低效的媒介</title><link>https://beardleon.github.io/posts/not_video/</link><pubDate>Thu, 09 Jan 2025 17:27:44 +0800</pubDate><guid>https://beardleon.github.io/posts/not_video/</guid><description>&lt;p>缺乏主动学习的情况下喜欢看视频，实际上视频是非常低效的媒介。&lt;/p></description></item><item><title>没有失败，只有反馈</title><link>https://beardleon.github.io/posts/no_failed_just_feedback/</link><pubDate>Thu, 09 Jan 2025 17:24:05 +0800</pubDate><guid>https://beardleon.github.io/posts/no_failed_just_feedback/</guid><description>&lt;h1 id="1">1.&lt;/h1>
 &lt;p>有了这个心态后，再也不会怕任何失败和尝试，遇到失败后的想法是更好的去改善而不是内耗。:)&lt;/p>
 &lt;h2 id="2">2.&lt;/h2>
 &lt;p>放松心态，专注当下。如果你开始担心结果，你已经失去了专注力。&lt;/p></description></item><item><title>美好的午后</title><link>https://beardleon.github.io/posts/beautiful_afternoon/</link><pubDate>Wed, 08 Jan 2025 17:03:49 +0800</pubDate><guid>https://beardleon.github.io/posts/beautiful_afternoon/</guid><description>&lt;h2 id="厦门">厦门&lt;/h2>
